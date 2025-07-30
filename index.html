@@ -1,0 +1,1259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TC03 Website</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="icon" type="image/x-icon" href="logo.png" >
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0d0d0d;
+            color: #ffffff;
+            overflow-x: hidden;
+            padding-top: 0;
+            scroll-behavior: smooth;
+        }
+        .gradient-text {
+            background: linear-gradient(90deg, #ff007f, #8a2be2);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        #home #bg-wrap, #students-section .bg-wrap-students {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        #home #bg-wrap svg, #students-section .bg-wrap-students svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        #home::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(to top, #0d0d0d 0%, transparent 100%);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        #students-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 300px; 
+            background: linear-gradient(to bottom, #0d0d0d 0%, transparent 100%);
+            z-index: 0; 
+            pointer-events: none;
+        }
+
+        #students-section::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(to top, #0d0d0d 0%, transparent 100%);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .content-z-index {
+            position: relative;
+            z-index: 1;
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .menu-bar {
+                display: none;
+            }
+            .hero-section h1 {
+                font-size: 2.5rem;
+            }
+            .hero-section p {
+                font-size: 0.9rem;
+            }
+            .contact-us-btn {
+                width: 100%;
+                text-align: center;
+            }
+            .stats-box {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: rgba(13, 13, 13, 0.9);
+            padding: 20px 0;
+            text-align: center;
+            border-bottom: none;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        header nav {
+            display: flex;
+            width: auto;
+            margin-top: 0;
+        }
+
+        .menu-bar {
+            border-radius: 25px;
+            height: fit-content;
+            display: inline-flex;
+            background-color: rgba(30, 30, 30, .6);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            align-items: center;
+            padding: 0 10px;
+            margin: 0;
+            position: relative;
+        }
+
+        .menu-bar li {
+            list-style: none;
+            color: white;
+            font-family: 'Inter', sans-serif;
+            font-weight: bold;
+            padding: 12px 16px;
+            margin: 0 8px;
+            position: relative;
+            cursor: pointer;
+            white-space: nowrap;
+            letter-spacing: normal;
+            transition: color 0.2s;
+        }
+
+        .nav-indicator {
+            position: absolute;
+            bottom: 0;
+            height: 100%;
+            background: linear-gradient(to bottom, #e8edec, #d2d1d3);
+            border-radius: 25px;
+            transition: left 0.6s cubic-bezier(0.25, 0.8, 0.25, 1),
+                        width 0.6s cubic-bezier(0.25, 0.8, 0.25, 1),
+                        opacity 0.6s ease-in-out;
+            z-index: -1;
+            box-shadow: 0px 3px 20px 0px rgba(0, 0, 0, 0.5);
+            opacity: 0;
+        }
+
+        .menu-bar li.active {
+            color: black;
+            letter-spacing: normal;
+        }
+
+        section {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #ffffff;
+            background-color: #0d0d0d;
+            padding: 4rem 1rem;
+        }
+
+        #home {
+            padding-top: 0;
+            padding-bottom: 0;
+        }
+
+        #about-us {
+            padding: 4rem 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .about-section-3d-wrapper {
+            width: 100%;
+            max-width: 1700px;
+            background: rgba(30, 30, 30, 0.4);
+            border-radius: 40px;
+            padding: 3rem 4rem;
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.7), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+            margin: 0 auto;
+            position: relative;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        .expertise-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+            margin-bottom: 2rem;
+            padding: 0;
+            text-align: center;
+        }
+
+        .expertise-header h2 {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            text-transform: none;
+            text-align: center;
+        }
+
+        .expertise-header p {
+            font-size: 1.1rem;
+            color: #ccc;
+            text-align: center;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .gray-divider {
+            width: 90%;
+            height: 1px;
+            background-color: #505050;
+            margin: 2rem auto;
+        }
+
+        .expertise-cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            width: 100%;
+            justify-items: center;
+        }
+
+        .expertise-card {
+            background-color: #2a2a2a;
+            border-radius: 20px;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .expertise-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .expertise-card.purple-card {
+            background-color: #8a2be2;
+        }
+
+        .expertise-card.professor-card .prof-card-content {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .expertise-card.professor-card .prof-card-content p {
+            flex: 1;
+            margin: 0;
+        }
+
+        .prof-img img {
+            width: 150px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 20%;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+            transition: transform 0.5s ease;
+        }
+
+        .prof-img img:hover {
+            transform: scale(1.05);
+        }
+
+        .expertise-card h3, h2 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: #e0ffff;
+            text-align: left;
+        }
+
+        .expertise-card.purple-card h3 {
+            color: #ffffff;
+        }
+
+        .expertise-card p {
+            font-size: 1.1rem;
+            margin-top: 0;
+            flex-grow: 1;
+            color: #b0b0b0;
+            line-height: 1.5;
+            text-align: left;
+            margin-bottom: 1.5rem;
+        }
+
+        .expertise-card.purple-card p {
+            color: #e0ffff;
+        }
+
+        .expertise-card .arrow-icon {
+            position: absolute;
+            top: 3rem;
+            right: 2rem;
+            width: 24px;
+            height: 24px;
+            background-color: #505050;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .expertise-card.purple-card .arrow-icon {
+            background-color: #a7ff00;
+        }
+
+        .expertise-card .arrow-icon svg {
+            fill: #ffffff;
+            width: 14px;
+            height: 14px;
+        }
+
+        .expertise-card.purple-card .arrow-icon svg {
+            fill: #0d0d0d;
+        }
+
+        .expertise-card .card-image-container {
+            width: calc(100% + 4rem);
+            margin-left: -2rem;
+            margin-right: -2rem;
+            margin-top: auto;
+            height: 180px;
+            overflow: hidden;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+            position: relative;
+        }
+
+        .expertise-card .card-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center;
+        }
+
+        .expertise-card.purple-card .card-image-container {
+            border-top-left-radius: 0;
+            border-top-right-radius: 0;
+            border-bottom-left-radius: 20px;
+            border-bottom-right-radius: 20px;
+        }
+
+        .reveal {
+            position: relative;
+            transform: translateY(150px);
+            opacity: 0;
+            transition: 2s all ease;
+        }
+
+        .reveal.active {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .styled-button {
+            font-size: 18px;
+            display: inline-block;
+            outline: 0;
+            border: 0;
+            cursor: pointer;
+            will-change: box-shadow, transform;
+            background: #7F00FF;
+            box-shadow: 0px 0.01em 0.01em rgb(45 35 66 / 40%), 0px 0.3em 0.7em -0.01em rgb(45 35 66 / 30%), inset 0px -0.01em 0px rgb(58 65 111 / 50%);
+            padding: 0 2em;
+            border-radius: 50px;
+            color: #fff;
+            height: 2.6em;
+            text-shadow: 0 1px 0 rgb(0 0 0 / 40%);
+            transition: box-shadow 0.15s ease, transform 0.15s ease;
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+            line-height: 2.6em;
+            text-decoration: none;
+        }
+
+        .styled-button:hover {
+            box-shadow: 0px 0.1em 0.2em rgb(48, 25, 52 / 40%), 0px 0.4em 0.7em -0.1em rgb(48, 25, 52 / 30%), inset 0px -0.1em 0px #3c4fe0;
+            transform: translateY(-0.1em);
+        }
+
+        .styled-button:active {
+            box-shadow: inset 0px 0.1em 0.6em #3c4fe0;
+            transform: translateY(0em);
+        }
+
+        .stats-card-hover {
+            transition: transform 0.2s ease-in-out;
+        }
+
+        .stats-card-hover:hover {
+            transform: scale(1.02);
+        }
+
+        .student-cards {
+            background-color: transparent;
+            padding: 80px 20px;
+            text-align: center;
+        }
+
+        .student-cards h2 {
+            font-size: 3rem;
+            font-weight: 800;
+            color: #ffffff;
+            margin-bottom: 50px;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            max-width: 1700px;
+            margin: 0 auto;
+            justify-content: center;
+            padding-bottom: 50px;
+        }
+
+        @media (min-width: 1280px) {
+            .card-grid {
+                grid-template-columns: repeat(5, 1fr);
+            }
+        }
+
+        .card {
+            overflow: hidden;
+            width: 100%;
+            max-width: 280px;
+            height: 375px;
+            margin-left: auto;
+            margin-right: auto;
+            box-shadow: 0px 5px 20px 1px rgba(0, 0, 0, 0.1);
+            transition: box-shadow 0.3s ease, transform 0.3s ease;
+            perspective: 1000px;
+            cursor: pointer;
+            position: relative;
+            border-radius: 15px;
+        }
+
+        .card:hover {
+            box-shadow: 0px 15px 35px 5px rgba(0, 0, 0, 0.25);
+            transform: translateY(-8px);
+        }
+
+        .content {
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border-radius: 15px;
+        }
+
+        .front, .back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            border-radius: 15px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .front {
+            transform: rotateY(0deg);
+            background-image: url('https://i.pinimg.com/736x/bb/3c/d5/bb3cd595919a7514876eb9d7ab76a4d5.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            z-index: -1;
+            border: 3px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3), 0 5px 15px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.2), inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+            color: #333;
+            padding: 0;
+            justify-content: flex-start;
+            position: relative;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+
+        .front .logo-section,
+        .front .header-strip,
+        .front .logo-section img,
+        .id-card-message,
+        .student-number-front,
+        .badge-front {
+            display: none;
+        }
+
+        .front .student-photo-container {
+            position: relative;
+            z-index: 4;
+            width: 100%;
+            height: auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 20px;
+            margin-bottom: 0px;
+            flex-shrink: 0;
+        }
+
+        .front .student-img {
+            width: 200px;
+            height: 200px;
+            border-radius: 5px;
+            object-fit: cover;
+            object-position: center;
+            border: 2px solid #ffffff;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            z-index: 10;
+            margin-top: 20px;
+            position: relative;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover .student-img {
+            transform: scale(1.03);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .student-info-front {
+            text-align: center;
+            margin-top: 15px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            padding: 0 10px;
+            position: relative;
+            z-index: 4;
+        }
+
+        .student-name-front {
+            font-family: 'Open Sans', sans-serif;
+            font-size: 1.3em;
+            font-weight: 600;
+            margin-top: 20px;
+            margin-bottom: 0;
+            line-height: 1.3;
+            text-align: center;
+            width: 90%;
+            white-space: normal;
+            word-break: break-word;
+            overflow-wrap: break-word;
+            color: #ffffff;
+        }
+
+        .back {
+            transform: rotateY(180deg);
+            background-color: #000000;
+        }
+
+        .back::before {
+            position: absolute;
+            content: '';
+            display: block;
+            width: 180px;
+            height: 180%;
+            background: linear-gradient(90deg, transparent, #5D3FD3, #7F00FF, #5D3FD3, #7F00FF, transparent);
+            animation: rotation_481 5000ms infinite linear;
+            z-index: 0;
+        }
+
+        .back-content {
+            position: absolute;
+            width: 96%;
+            height: 96%;
+            background-color: #151515;
+            border-radius: 15px;
+            color: #feda4a;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            padding: 20px;
+            text-align: center;
+            box-sizing: border-box;
+            z-index: 1;
+            transition: background-color 0.3s ease;
+        }
+
+        .card:hover .content {
+            transform: rotateY(180deg);
+        }
+
+        @keyframes rotation_481 {
+            0% {
+                transform: rotateZ(0deg);
+            }
+            100% {
+                transform: rotateZ(360deg);
+            }
+        }
+
+        .back-content .arrow {
+            font-size: 32px;
+            color: #CF9FFF;
+            margin-bottom: 5px;
+            animation: bounceArrow 1s infinite;
+        }
+
+        @keyframes bounceArrow {
+            0%, 20%, 50%, 80%, 100% {
+                transform: translateY(0);
+            }
+            40% {
+                transform: translateY(-10px);
+            }
+            60% {
+                transform: translateY(-5px);
+            }
+        }
+
+        .back-content .student-name {
+            font-size: 25px;
+            font-weight: bold;
+            margin: 0;
+            color: #CF9FFF;
+            transition: color 0.3s ease;
+        }
+
+        .back-content .student-number {
+            font-size: 15px;
+            color: #ffffff;
+            margin: 0;
+            transition: color 0.3s ease;
+        }
+
+        .view-button {
+            margin-top: 15px;
+            padding: 8px 15px;
+            background-color: #B13BFF;
+            color: #000000;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+            border-radius: 25px;
+            transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .view-button:hover {
+            background-color: #CF9FFF;
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .view-button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+</style>
+</head>
+<body>
+    <header class="py-6 px-4 md:px-8 lg:px-16">
+        <div class="container mx-auto flex items-center header-content">
+            <div class="flex items-center space-x-2">
+                <span class="text-2xl font-extrabold">TC03</span>
+            </div>
+            <nav class="hidden md:flex">
+                <ul class="menu-bar">
+                    <li id="nav-home" class="nav-link"><a href="#home">Home</a></li>
+                    <li id="nav-about-us" class="nav-link"><a href="#about-us">About</a></li>
+                    <li id="nav-students-section" class="nav-link"><a href="#students-section">Portfolio</a></li>
+                    <div class="nav-indicator"></div>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section id="home" class="relative min-h-screen px-4 md:px-8 lg:px-16 text-center overflow-hidden content-z-index reveal flex flex-col justify-center">
+        <div id="bg-wrap">
+            <svg viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice">
+                <defs>
+                    <radialGradient id="Gradient1" cx="50%" cy="50%" fx="0.441602%" fy="50%" r=".5"><animate attributeName="fx" dur="34s" values="0%;3%;0%" repeatCount="indefinite"></animate><stop offset="0%" stop-color="rgba(255, 0, 255, 1)"></stop><stop offset="100%" stop-color="rgba(255, 0, 255, 0)"></stop></radialGradient>
+                    <radialGradient id="Gradient2" cx="50%" cy="50%" fx="2.68147%" fy="50%" r=".5"><animate attributeName="fx" dur="23.5s" values="0%;3%;0%" repeatCount="indefinite"></animate><stop offset="0%" stop-color="rgba(255, 255, 0, 1)"></stop><stop offset="100%" stop-color="rgba(255, 255, 0, 0)"></stop></radialGradient>
+                    <radialGradient id="Gradient3" cx="50%" cy="50%" fx="0.836536%" fy="50%" r=".5"><animate attributeName="fx" dur="21.5s" values="0%;3%;0%" repeatCount="indefinite"></animate><stop offset="0%" stop-color="rgba(0, 255, 255, 1)"></stop><stop offset="100%" stop-color="rgba(0, 255, 255, 0)"></stop></radialGradient>
+                    <radialGradient id="Gradient4" cx="50%" cy="50%" fx="4.56417%" fy="50%" r=".5"><animate attributeName="fx" dur="23s" values="0%;5%;0%" repeatCount="indefinite"></animate><stop offset="0%" stop-color="rgba(0, 255, 0, 1)"></stop><stop offset="100%" stop-color="rgba(0, 255, 0, 0)"></stop></radialGradient>
+                    <radialGradient id="Gradient5" cx="50%" cy="50%" fx="2.65405%" fy="50%" r=".5"><animate attributeName="fx" dur="24.5s" values="0%;5%;0%" repeatCount="indefinite"></animate><stop offset="0%" stop-color="rgba(0,0,255, 1)"></stop><stop offset="100%" stop-color="rgba(0,0,255, 0)"></stop></radialGradient>
+                    <radialGradient id="Gradient6" cx="50%" cy="50%" fx="0.981338%" fy="50%" r=".5"><animate attributeName="fx" dur="25.5s" values="0%;5%;0%" repeatCount="indefinite"></animate><stop offset="0%" stop-color="rgba(255,0,0, 1)"></stop><stop offset="100%" stop-color="rgba(255,0,0, 0)"></stop></radialGradient>
+                </defs>
+                <rect x="13.744%" y="1.18473%" width="100%" height="100%" fill="url(#Gradient1)" transform="rotate(334.41 50 50)"><animate attributeName="x" dur="20s" values="25%;0%;25%" repeatCount="indefinite"></animate><animate attributeName="y" dur="21s" values="0%;25%;0%" repeatCount="indefinite"></animate><animateTransform attributeName="transform" type="rotate" from="0 50 50" to="360 50 50" dur="7s" repeatCount="indefinite"></animateTransform></rect>
+                <rect x="-2.17916%" y="35.4267%" width="100%" height="100%" fill="url(#Gradient2)" transform="rotate(255.072 50 50)"><animate attributeName="x" dur="23s" values="-25%;0%;-25%" repeatCount="indefinite"></animate><animate attributeName="y" dur="24s" values="0%;50%;0%" repeatCount="indefinite"></animate><animateTransform attributeName="transform" type="rotate" from="0 50 50" to="360 50 50" dur="12s" repeatCount="indefinite"></animateTransform></rect>
+                <rect x="9.00483%" y="14.5733%" width="100%" height="100%" fill="url(#Gradient3)" transform="rotate(139.903 50 50)"><animate attributeName="x" dur="25s" values="0%;25%;0%" repeatCount="indefinite"></animate><animate attributeName="y" dur="12s" values="0%;25%;0%" repeatCount="indefinite"></animate><animateTransform attributeName="transform" type="rotate" from="360 50 50" to="0 50 50" dur="9s" repeatCount="indefinite"></animateTransform></rect>
+            </svg>
+        </div>
+        <div class="w-full relative z-10 py-48">
+            <h1 class="text-4xl md:text-5xl lg:text-7xl xl:text-8xl font-extrabold leading-tight mb-8">
+                WELCOME TO THE OFFICIAL<br><span class="gradient-text">TC03 CLASS PORTFOLIO!</span>
+            </h1>
+            <p class="text-lg md:text-xl text-white mb-12 mx-auto max-w-4xl">
+                Step into the creative world of TC03, where ideas come to life and teamwork shines! This portfolio showcases our talents, websites, and skills — all built with passion and creativity.
+            </p>
+            <a href="#students-section" class="styled-button nav-link">
+                Browse Creations
+            </a>
+            <div class="flex flex-col md:flex-row justify-center items-center gap-8 mt-16 md:mt-24 w-full">
+                <div class="relative bg-gray-800 bg-opacity-70 rounded-2xl p-6 md:p-8 shadow-xl max-w-md flex-1 stats-card-hover">
+                    <div class="flex items-center justify-center">
+                        <span class="text-5xl md:text-6xl font-extrabold gradient-text mr-4">40</span>
+                        <p class="text-gray-300 text-sm md:text-base">creative minds in<br>one talented block</p>
+                    </div>
+                </div>
+                <div class="relative bg-gray-800 bg-opacity-70 rounded-2xl p-6 md:p-8 shadow-xl max-w-md flex-1 stats-card-hover">
+                    <div class="flex items-center justify-center">
+                        <span class="text-5xl md:text-6xl font-extrabold gradient-text mr-4">100+</span>
+                        <p class="text-gray-300 text-sm md:text-base">brilliant ideas<br>turned into websites</p>
+                    </div>
+                </div>
+                <div class="relative bg-gray-800 bg-opacity-70 rounded-2xl p-6 md:p-8 shadow-xl max-w-md flex-1 stats-card-hover">
+                    <div class="flex items-center justify-center">
+                        <span class="text-5xl md:text-6xl font-extrabold gradient-text mr-4">1</span>
+                        <p class="text-gray-300 text-sm md:text-base">clear purpose as a block:<br>to design, build, and inspire</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about-us" class="content-z-index">
+        <div class="about-section-3d-wrapper reveal">
+            <div class="expertise-header">
+                <h2>About Us</h2>
+                <p>An overview of our course, block section, and the professor who guided our work.</p>
+            </div>
+            <div class="gray-divider"></div>
+            <div class="expertise-cards-container">
+                <div class="expertise-card">
+                    <h3>About our <br> Course / Subject</h3>
+                    <div class="arrow-icon">
+                        <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 4L10.59 5.41L16.17 11H4V13H16.17L10.59 18.59L12 20L20 12L12 4Z"/>
+                        </svg>
+                    </div>
+                    <p>This project was developed for the subject IT0043 – Web Design with Client-Side Scripting, which introduces students to essential front-end technologies such as HTML, CSS, and JavaScript.<br><br>The course emphasizes hands-on learning, encouraging students to apply web design principles, improve user experience, and follow web standards.</p>
+                </div>
+
+                <div class="expertise-card purple-card">
+                    <h3>About Our <br>Block Section</h3>
+                    <div class="arrow-icon">
+                        <svg viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M12 4L10.59 5.41L16.17 11H4V13H16.17L10.59 18.59L12 20L20 12L12 4Z"/>
+                        </svg>
+                    </div>
+                    <p>We are Block TC03, first-year students from the FEU Institute of Technology, enrolled in the Bachelor of Science in Information Technology with a specialization in Cybersecurity. Our section is composed of dedicated individuals with a strong interest in technology and digital innovation.<br><br>As aspiring IT professionals, we are focused on building a strong foundation in both technical knowledge and practical skills. </p>
+                </div>
+
+                <div class="expertise-card professor-card">
+                    <div class="prof-header" style="display: flex; align-items: center; gap: 20px;">
+                        <h3 style="margin: 0;">About Our <br>Course Professor</h3>
+                        <div class="prof-img">
+                            <img src="images/Bombasi.jpg" alt="Professor Joferson Bombasi">
+                        </div>
+                    </div>
+                    
+                    <div class="prof-card-content" style="margin-top: 1rem;">
+                        <p>Our block was nurtured under the mentorship of <b>Dr. Joferson Bombasi</b>, our professor for IT0043.
+                        <br><br>
+                        <b>Dr. Bombasi</b> is a distinguished individual with extensive experience as an IT professional and educator. 
+                        He served as the Program Director of CCS at FEU Alabang and was formerly a Computer Science professor at the College of Southern Nevada.
+                        <br><br>
+                        With his support, we were able to apply our learning by building 
+                        individual portfolio websites, allowing us to showcase both our technical skills and creative approaches to web design.</p>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section id="students-section" class="content-z-index relative student-cards">
+        <div class="bg-wrap-students">
+            <svg viewBox="0 0 100 100" preserveAspectRatio="xMidYMid slice">
+                <defs>
+                    <radialGradient id="Gradient1_students" cx="50%" cy="50%" fx="0.441602%" fy="50%" r=".5"><animate attributeName="fx" dur="34s" values="0%;3%;0%" repeatCount="indefinite"></animate><stop offset="0%" stop-color="rgba(255, 0, 255, 1)"></stop><stop offset="100%" stop-color="rgba(255, 0, 255, 0)"></stop></radialGradient>
+                    <radialGradient id="Gradient2_students" cx="50%" cy="50%" fx="2.68147%" fy="50%" r=".5"><animate attributeName="fx" dur="23.5s" values="0%;3%;0%" repeatCount="indefinite"></animate><stop offset="0%" stop-color="rgba(255, 255, 0, 1)"></stop><stop offset="100%" stop-color="rgba(255, 255, 0, 0)"></stop></radialGradient>
+                    <radialGradient id="Gradient3_students" cx="50%" cy="50%" fx="0.836536%" fy="50%" r=".5"><animate attributeName="fx" dur="21.5s" values="0%;3%;0%" repeatCount="indefinite"></animate><stop offset="0%" stop-color="rgba(0, 255, 255, 1)"></stop><stop offset="100%" stop-color="rgba(0, 255, 255, 0)"></stop></radialGradient>
+                    <radialGradient id="Gradient4_students" cx="50%" cy="50%" fx="4.56417%" fy="50%" r=".5"><animate attributeName="fx" dur="23s" values="0%;5%;0%" repeatCount="indefinite"></animate><stop offset="0%" stop-color="rgba(0, 255, 0, 1)"></stop><stop offset="100%" stop-color="rgba(0, 255, 0, 0)"></stop></radialGradient>
+                    <radialGradient id="Gradient5_students" cx="50%" cy="50%" fx="2.65405%" fy="50%" r=".5"><animate attributeName="fx" dur="24.5s" values="0%;5%;0%" repeatCount="indefinite"></animate><stop offset="0%" stop-color="rgba(0,0,255, 1)"></stop><stop offset="100%" stop-color="rgba(0,0,255, 0)"></stop></radialGradient>
+                    <radialGradient id="Gradient6_students" cx="50%" cy="50%" fx="0.981338%" fy="50%" r=".5"><animate attributeName="fx" dur="25.5s" values="0%;5%;0%" repeatCount="indefinite"></animate><stop offset="0%" stop-color="rgba(255,0,0, 1)"></stop><stop offset="100%" stop-color="rgba(255,0,0, 0)"></stop></radialGradient>
+                </defs>
+                <rect x="13.744%" y="1.18473%" width="100%" height="100%" fill="url(#Gradient1_students)" transform="rotate(334.41 50 50)"><animate attributeName="x" dur="20s" values="25%;0%;25%" repeatCount="indefinite"></animate><animate attributeName="y" dur="21s" values="0%;25%;0%" repeatCount="indefinite"></animate><animateTransform attributeName="transform" type="rotate" from="0 50 50" to="360 50 50" dur="7s" repeatCount="indefinite"></animateTransform></rect>
+                <rect x="-2.17916%" y="35.4267%" width="100%" height="100%" fill="url(#Gradient2_students)" transform="rotate(255.072 50 50)"><animate attributeName="x" dur="23s" values="-25%;0%;-25%" repeatCount="indefinite"></animate><animate attributeName="y" dur="24s" values="0%;50%;0%" repeatCount="indefinite"></animate><animateTransform attributeName="transform" type="rotate" from="0 50 50" to="360 50 50" dur="12s" repeatCount="indefinite"></animateTransform></rect>
+                <rect x="9.00483%" y="14.5733%" width="100%" height="100%" fill="url(#Gradient3_students)" transform="rotate(139.903 50 50)"><animate attributeName="x" dur="25s" values="0%;25%;0%" repeatCount="indefinite"></animate><animate attributeName="y" dur="12s" values="0%;25%;0%" repeatCount="indefinite"></animate><animateTransform attributeName="transform" type="rotate" from="360 50 50" to="0 50 50" dur="9s" repeatCount="indefinite"></animateTransform></rect>
+            </svg>
+        </div>
+        <div class="container reveal relative z-10">
+            <h2>Students' Portfolio</h2>
+            <div class="card-grid"></div>
+        </div>
+    </section>
+
+    <footer class="py-8 text-center text-gray-500 text-sm content-z-index">
+        <p>&copy; 2025 TC03 - FEU Institute of Technology. All rights reserved.</p><br>
+        <button onclick="document.getElementById('credits').classList.toggle('hidden')" class="text-xs text-gray-600 hover:underline transition duration-200 ease-in-out">
+            <b>-CREDITS-</b>
+        </button>
+        <div id="credits" class="hidden text-xs mt-2 text-gray-400">
+            This website was developed by Abacan, Alberto, Maniquiz, and Paco.
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('.menu-bar .nav-link');
+            const navIndicator = document.querySelector('.nav-indicator');
+            const menuBar = document.querySelector('.menu-bar');
+            const sections = document.querySelectorAll("#home, #about-us, #students-section, #portfolio");
+
+            function setActiveLink(element) {
+                if (!element) return;
+                navLinks.forEach(link => link.classList.remove('active'));
+                element.classList.add('active');
+                if (element.offsetParent) {
+                    navIndicator.style.left = `${element.offsetLeft}px`;
+                    navIndicator.style.width = `${element.offsetWidth}px`;
+                    navIndicator.style.height = `${element.offsetHeight}px`;
+                    navIndicator.style.opacity = 1;
+                } else {
+                    navIndicator.style.opacity = 0;
+                }
+            }
+
+            const initialActiveLink = document.getElementById('nav-home');
+            if (initialActiveLink) {
+                setActiveLink(initialActiveLink);
+            }
+
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const linkAnchor = this.querySelector('a');
+                    if (linkAnchor) {
+                        const targetId = linkAnchor.getAttribute('href').substring(1);
+                        const targetSection = document.getElementById(targetId);
+                        if (targetSection) {
+                            window.scrollTo({
+                                top: targetSection.offsetTop - document.querySelector('header').offsetHeight,
+                                behavior: 'smooth'
+                            });
+                        }
+                    }
+                    setActiveLink(this);
+                });
+            });
+
+            window.addEventListener("scroll", () => {
+                let current = "";
+                const headerHeight = document.querySelector('header').offsetHeight;
+
+                sections.forEach((section) => {
+                    const sectionTop = section.offsetTop - headerHeight;
+                    const sectionHeight = section.clientHeight;
+                    if (scrollY >= sectionTop && scrollY < sectionTop + sectionHeight) {
+                        current = section.getAttribute("id");
+                    }
+                });
+
+                navLinks.forEach((link) => {
+                    const linkAnchor = link.querySelector('a');
+                    if (linkAnchor && linkAnchor.getAttribute("href").includes(current)) {
+                        setActiveLink(link);
+                    }
+                });
+            }, { passive: true });
+
+            function reveal() {
+                var reveals = document.querySelectorAll(".reveal");
+
+                for (var i = 0; i < reveals.length; i++) {
+                    var windowHeight = window.innerHeight;
+                    var elementTop = reveals[i].getBoundingClientRect().top;
+                    var elementVisible = 150;
+
+                    if (elementTop < windowHeight - elementVisible) {
+                        reveals[i].classList.add("active");
+                    } else {
+                        reveals[i].classList.remove("active");
+                    }
+                }
+            }
+            window.addEventListener("scroll", reveal, {passive: true});
+            reveal();
+            });
+
+            const studentData = [
+            {
+                id: 'student-001',
+                name: 'Aaliyah Angela Abacan',
+                studentNumber: '202411660',
+                photo: 'images/Abacan.png',
+                link: 'https://aaliyah202411660.github.io/mywebsite/'
+            },
+            {
+                id: 'student-002',
+                name: 'Krizzianne Abillar',
+                studentNumber: '202412269',
+                photo: 'images/Abillar.png',
+                link: 'https://zzzianee.github.io/Abillar/'
+            },
+            {
+                id: 'student-003',
+                name: 'Johann Markus Abion',
+                studentNumber: '.',
+                photo: 'images/Abion.png',
+                link: 'https://abionportfolio.netlify.app/'
+            },
+            {
+                id: 'student-004',
+                name: 'Beatrice Rae Ann Alberto',
+                studentNumber: '202411771',
+                photo: 'images/Alberto.PNG',
+                link: 'http://beyaalberto.github.io/website/'
+            },
+            {
+                id: 'student-005',
+                name: 'Joschka Gabriel Atabelo',
+                studentNumber: '202411544',
+                photo: 'images/Atabelo.jpg',
+                link: 'https://atabelo26.github.io/my-website/'
+            },
+            {
+                id: 'student-006',
+                name: 'Jed Cedrick Bautista',
+                studentNumber: '202410381',
+                photo: 'images/Bautista.PNG',
+                link: 'https://jedwebsite.netlify.app/'
+            },
+            {
+                id: 'student-007',
+                name: 'Mark Keith Benipayo',
+                studentNumber: '202411493',
+                photo: 'images/Benipayo.jpg',
+                link: 'https://kbis777.github.io/Update_Website_FinalsProject'
+            },
+            {
+                id: 'student-008',
+                name: 'Seth John Lloyd Biala',
+                studentNumber: '202410960',
+                photo: 'images/Biala.jpg',
+                link: 'https://superseth123.github.io/PersonalWebsiteBiala/index.html'
+            },
+            {
+                id: 'student-009',
+                name: 'Christine Andrea Boja',
+                studentNumber: '202412286',
+                photo: 'images/Boja.JPG',
+                link: 'https://andrea25.neocities.org/'
+            },
+            {
+                id: 'student-010',
+                name: 'Reign Maria Gwynne Bragas',
+                studentNumber: '202410975',
+                photo: 'images/Bragas.jpg',
+                link: 'https://reyn-bargs.github.io/My-website/index.html'
+            },
+            {
+                id: 'student-011',
+                name: 'Manfreid Jiro Carag',
+                studentNumber: '202411932',
+                photo: 'images/Carag.jpg',
+                link: 'https://manf0318.github.io/Carag-Website/'
+            },
+            {
+                id: 'student-012',
+                name: 'Mason Andrei Cedo',
+                studentNumber: '202411264',
+                photo: 'images/Cedo.jfif',
+                link: 'https://mason0618.github.io/MasonCedoFinals/'
+            },
+            {
+                id: 'student-013',
+                name: 'Cheska Shaine Chavez',
+                studentNumber: '202411266',
+                photo: 'images/Chavez.jpg',
+                link: 'https://shainie-dh.github.io/chavez/'
+            },
+            {
+                id: 'student-014',
+                name: 'Ace Jefferson Divino',
+                studentNumber: '202412010',
+                photo: 'images/Divino.jpeg',
+                link: 'https://ajtd.netlify.app/'
+            },
+            {
+                id: 'student-015',
+                name: 'Alfred Nathaniel Embuscado',
+                studentNumber: '202411076',
+                photo: 'images/Embuscado.jpeg',
+                link: 'https://nathanielnaw.github.io/Website/'
+            },
+            {
+                id: 'student-016',
+                name: 'Lance Michael Gutana',
+                studentNumber: '202410971',
+                photo: 'images/Gutana.jpg',
+                link: 'https://gutanawebsite.netlify.app/'
+            },
+            {
+                id: 'student-017',
+                name: 'Kenneth Miguel Japitana',
+                studentNumber: '202411377',
+                photo: 'images/Japitana.jpg',
+                link: 'https://websitejapitana.netlify.app'
+            },
+            {
+                id: 'student-018',
+                name: 'John Carlo Legaspi',
+                studentNumber: '202410741',
+                photo: 'images/Legaspi.jpg',
+                link: 'https://john-carlo-legaspi.github.io/IT0043L-Final-Project-by-Legaspi/'
+            },
+            {
+                id: 'student-019',
+                name: 'Andrea Nica Magnaye',
+                studentNumber: '202411919',
+                photo: 'images/Magnaye.png',
+                link: 'https://website-by-andrea.netlify.app/'
+            },
+            {
+                id: 'student-020',
+                name: 'Eirhiz Jericko Maniego',
+                studentNumber: '202411012',
+                photo: 'images/Maniego.jpg',
+                link: 'https://jericko31.github.io/website/index.html'
+            },
+            {
+                id: 'student-021',
+                name: 'Ifan Jon Maniquiz',
+                studentNumber: '202411250',
+                photo: 'images/Maniquiz.png',
+                link: 'https://fannjy.github.io/Maniquiz-Portfolio/index.html'
+            },
+            {
+                id: 'student-022',
+                name: 'Brigitte Sally McDonald',
+                studentNumber: '202411821',
+                photo: 'images/McDonald.jpg',
+                link: 'https://bridgemcd.github.io/bridgemcdonald/'
+            },
+            {
+                id: 'student-023',
+                name: 'Juliah Nash',
+                studentNumber: '202410233',
+                photo: 'images/Nash.jpg',
+                link: 'https://naurshh.github.io/finals_webdev_nash/'
+            },
+            {
+                id: 'student-024',
+                name: 'Dexeeyah Ocampo',
+                studentNumber: '202411630',
+                photo: 'images/Ocampo.jpeg',
+                link: 'https://dexeeyah.github.io/dexeeyahswebsite/'
+            },
+            {
+                id: 'student-025',
+                name: 'John Zyril Paco',
+                studentNumber: '202411138',
+                photo: 'images/Paco.jpg',
+                link: 'https://parallelv.github.io/personal_web/'
+            },
+            {
+                id: 'student-026',
+                name: 'Jt Lennard Pagsanjan',
+                studentNumber: '202410696',
+                photo: 'images/Pagsanjan.JPG',
+                link: 'https://pagsanjanjt.netlify.app/'
+            },
+            {
+                id: 'student-027',
+                name: 'Raina Kishan Quejada',
+                studentNumber: '202410663',
+                photo: 'images/Quejada.png',
+                link: 'http://rkishan6745.github.io/quejadaportfolio/'
+            },
+            {
+                id: 'student-028',
+                name: 'Alfonzo Gian Sebastian Quiambao',
+                studentNumber: '202410928',
+                photo: 'images/Quiambao.png',
+                link: 'https://alfonzo-bot.github.io/quiambao_curiosity/index.html'
+            },
+            {
+                id: 'student-029',
+                name: 'Susy Rebutido',
+                studentNumber: '202411965',
+                photo: 'images/Rebutido.jpg',
+                link: 'https://susy-portfolio-website.vercel.app/'
+            },
+            {
+                id: 'student-030',
+                name: 'John Adrian Reforsado',
+                studentNumber: '202411348',
+                photo: 'images/Reforsado.jpg',
+                link: 'https://adrian-reforsado.netlify.app/'
+            },
+            {
+                id: 'student-031',
+                name: 'Tyrone Miguel Reyes',
+                studentNumber: '202411949',
+                photo: 'images/Reyes.png',
+                link: 'https://oliverous.github.io/web-Design-Final/'
+            },
+            {
+                id: 'student-032',
+                name: 'Lorenz Kendrick Roque',
+                studentNumber: '202411611',
+                photo: 'images/Roque.png',
+                link: 'https://kendrick729.github.io/final-webpage/'
+            },
+            {
+                id: 'student-033',
+                name: 'Duwayne Jan Ruiz',
+                studentNumber: '202410700',
+                photo: 'images/Ruiz.jpeg',
+                link: 'https://duwayne71.github.io/Duwayne_Website/'
+            },
+            {
+                id: 'student-034',
+                name: 'Adrean Robert Santelices',
+                studentNumber: '202411339',
+                photo: 'images/Santelices.jpg',
+                link: 'https://moty0418.github.io/Very-final-website-hopefully-/'
+            },
+            {
+                id: 'student-035',
+                name: 'Kyle Christian Sarangay',
+                studentNumber: '202411004',
+                photo: 'images/Sarangay.jpg',
+                link: 'https://sarangay.netlify.app/'
+            },
+            {
+                id: 'student-036',
+                name: 'John Benedict Sazon',
+                studentNumber: '202412140',
+                photo: 'images/Sazon.JPG',
+                link: 'https://nozasj.github.io/Sazon/'
+            },
+            {
+                id: 'student-037',
+                name: 'Jose Gerard Joaquin Soriano',
+                studentNumber: '202411559',
+                photo: 'images/Soriano.jpg',
+                link: 'https://wakidyos.github.io/finalact/'
+            },
+            {
+                id: 'student-038',
+                name: 'Atheo Carl Sua',
+                studentNumber: '202411231',
+                photo: 'images/Sua.jpg',
+                link: 'https://atheosua.github.io/My-Website/'
+            },
+            {
+                id: 'student-039',
+                name: 'Yexelnathan Sy',
+                studentNumber: '202411945',
+                photo: 'images/Sy.PNG',
+                link: 'https://syprojectfinals.netlify.app/'
+            },
+            {
+                id: 'student-040',
+                name: 'Allyssa Kirsten Yasoña',
+                studentNumber: '202412171',
+                photo: 'images/Yasoña.jpg',
+                link: 'https://allykers.github.io/Yasona-AK/'
+            }
+            ];
+
+            const cardGrid = document.querySelector('.card-grid');
+
+            studentData.forEach(student => {
+                const card = document.createElement('div');
+                card.className = 'card';
+                card.innerHTML = `
+                    <div class="content">
+                        <div class="back">
+                            <div class="back-content">
+                                <span class="fas fa-arrow-up arrow"></span>
+                                <h4 class="student-name">${student.name}</h4>
+                                <p class="student-number">Student No: ${student.studentNumber}</p>
+                                <a href="${student.link}" target="_blank" class="view-button">View Portfolio</a>
+                            </div>
+                        </div>
+                        <div class="front">
+                            <div class="top-id-container">
+                                <div class="top-id-bar-green">
+                                    
+                                </div>
+                            </div>
+                            <div class="student-photo-container">
+                                <img src="${student.photo}" alt="${student.name}" class="student-img">
+                            </div>
+                            <div class="student-info-front">
+                                <h4 class="student-name-front">${student.name}</h4>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                cardGrid.appendChild(card);
+            });
+    </script>
+
+<!-- 
+    Website created and maintained by: 
+     Abacan, Aaliyah Angela
+     Alberto, Beatrice Rae Ann
+     Maniquiz, Ifan Jon
+     Paco, John Zyril 
+-->
+
+</body>
+</html>
